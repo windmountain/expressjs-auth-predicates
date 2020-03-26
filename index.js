@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 // The MIT License (MIT)
 //
@@ -49,9 +49,9 @@
  * RoutingPredicate -> RoutingCallback
  */
 function assure(pred) {
-  return function (req, res, next) {
+  return function(req, res, next) {
     handle(pred(req, res), req, res, next);
-  }
+  };
 }
 
 // fail and succeed can be overridden for customization
@@ -59,16 +59,16 @@ function assure(pred) {
 /**
  * RoutingCallback
  */
-assure.fail = function (req, res, next) {
-  res.status(401).json({ message: 'unauthorized' });
-}
+assure.fail = function(req, res, next) {
+  res.status(401).json({ message: "unauthorized" });
+};
 
 /**
  * RoutingCallback
  */
-assure.succeed = function (req, res, next) {
+assure.succeed = function(req, res, next) {
   next();
-}
+};
 
 /**
  * RoutingPredicate* -> RoutingCallback
@@ -76,14 +76,14 @@ assure.succeed = function (req, res, next) {
 assure.either = function() {
   var args = [].slice.apply(arguments);
 
-  return function (req, res, next) {
-    var allowed = args.reduce(function (acc, pred) {
+  return function(req, res, next) {
+    var allowed = args.reduce(function(acc, pred) {
       return acc || pred(req, res);
     }, false);
 
     handle(allowed, req, res, next);
-  }
-}
+  };
+};
 
 /**
  * (Boolean, Request, Response, () -> Unit) -> Unit
@@ -96,4 +96,4 @@ function handle(pred, req, res, next) {
   }
 }
 
-module.exports = assure
+module.exports = assure;
